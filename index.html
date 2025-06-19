@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Is Bunni Up?</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="topbar_gradientBackground__dpnr_"></div>
+  <div id="status-container">
+    <h1 id="status-text">Checking Bunni's status...</h1>
+  </div>
+
+  <div class="info-section-container">
+    <h2 class="info-section-title">Bunni.lol Status</h2>
+    <div class="bunni-status-details">
+
+      <div class="status-summary">
+        <h3 class="exploit-title">Bunni.lol</h3>
+        <span class="version-tag" id="bunni-version"></span>
+        <span class="sunc-badge">s<span class="sunc-white">UNC</span></span>
+        <span class="free-badge" id="bunni-free-badge" style="display: none;">Free</span>
+        <span class="paid-badge" id="bunni-paid-badge" style="display: none;"></span> <span class="update-status-label" id="bunni-update-text"></span>
+      </div>
+
+      <p class="last-updated-text">Last updated: <span id="bunni-last-updated"></span></p>
+
+      <div class="detection-warning" id="bunni-detection-warning" style="display: none;">
+          This exploit might be detected by Hyperion, use at your own risk
+      </div>
+
+      <div class="info-grid">
+           <div class="info-item">
+               <span class="info-label">UNC Percentage:</span>
+               <span class="info-value" id="bunni-unc-percentage"></span>
+           </div>
+           <div class="info-item">
+               <span class="info-label">sUNC Percentage:</span>
+               <span class="info-value" id="bunni-sunc-percentage"></span>
+           </div>
+           <div class="info-item">
+               <span class="info-label">Decompiler:</span>
+               <span class="info-value" id="bunni-decompiler-status"></span>
+           </div>
+           <div class="info-item">
+               <span class="info-label">Multi-Inject:</span>
+               <span class="info-value" id="bunni-multi-inject-status"></span>
+           </div>
+      </div>
+
+      <div class="action-buttons">
+           <a href="#" id="bunni-website-link" target="_blank" rel="noopener noreferrer" class="action-button" style="display: none;">
+               Website
+           </a>
+           <a href="#" id="bunni-discord-link" target="_blank" rel="noopener noreferrer" class="action-button" style="display: none;">
+               Discord
+           </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>

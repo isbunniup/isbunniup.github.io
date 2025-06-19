@@ -1,0 +1,329 @@
+:root {
+  /* Core Colors */
+  --bg-dark: #1e1e1e;
+  --text-color: #ffffff;
+  --text-subtle: #a0a0a0;
+  --border-color: rgba(255, 255, 255, 0.1);
+
+  /* Topbar Gradient */
+  --gradient-color-1: #ff0766;
+  --gradient-color-2: #007bff;
+
+  /* Status Indicators */
+  --status-updated-color: #22c55e; /* Green */
+  --status-outdated-color: #ef4444; /* Red */
+
+  /* Badges & Buttons */
+  --badge-bg: rgba(255, 255, 255, 0.08);
+  --badge-hover-bg: rgba(255, 255, 255, 0.15);
+  --free-badge-bg: linear-gradient(135deg, #22c55e, #16a34a);
+  --paid-badge-bg: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  --sunc-badge-color: #ad97db;
+  --sunc-white: #fff;
+
+  /* Warning Color */
+  --warning-yellow: #ffc107;
+  --warning-bg: rgba(255, 188, 0, 0.1);
+  --warning-border-left: #ffbc00;
+
+  /* Info Item Icons (for consistency, though now we're just using text 'X' or 'No') */
+  --info-check-icon: #3bea57;
+  --info-x-icon: #ec3b47;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-color);
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding-top: 60px; /* Space for the fixed topbar gradient */
+  box-sizing: border-box;
+}
+
+/* Topbar Gradient */
+.topbar_gradientBackground__dpnr_ {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--gradient-color-1) 0, var(--gradient-color-2) 25%, var(--gradient-color-1) 50%, var(--gradient-color-2) 75%, var(--gradient-color-1) 100%);
+  background-size: 200% 100%;
+  z-index: 99;
+  animation: flowGradient 5s linear infinite;
+}
+
+@keyframes flowGradient {
+  0% { background-position: 200% 50%; }
+  to { background-position: 0% 50%; }
+}
+
+/* Main Status Text */
+#status-container {
+  width: 100%;
+  max-width: 900px;
+  padding: 20px 16px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+#status-text {
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.green {
+  color: #4caf50;
+}
+
+.red {
+  color: #f44336;
+}
+
+/* NEW: Info Section Container (replaces exploits_exploitsContainer__QdZiS and exploits_categorySection__txPqo for this purpose) */
+.info-section-container {
+  width: 100%;
+  max-width: 600px; /* Limit width for better readability outside a card */
+  margin: 0 auto 30px; /* Center and add bottom margin */
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #2a2a2a; /* A slightly lighter dark gray for this section */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.info-section-title {
+  font-size: 24px; /* Larger title */
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 25px; /* More space below title */
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.bunni-status-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between different sections of details */
+  padding: 10px;
+}
+
+.status-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px; /* Space between badges and title */
+}
+
+.exploit-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+  flex-shrink: 0; /* Prevent title from shrinking */
+}
+
+.version-tag {
+  font-size: 13px;
+  color: var(--text-subtle);
+  background: var(--badge-bg);
+  padding: 4px 10px;
+  border-radius: 15px;
+  flex-shrink: 0;
+}
+
+.sunc-badge {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 15px;
+  background: var(--badge-bg);
+  color: var(--sunc-badge-color);
+  flex-shrink: 0;
+}
+
+.sunc-white {
+  color: var(--sunc-white);
+  font-weight: 600;
+}
+
+.free-badge {
+  background: var(--free-badge-bg);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 15px;
+  flex-shrink: 0;
+}
+
+.paid-badge {
+  background: var(--paid-badge-bg);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 15px;
+  flex-shrink: 0;
+}
+
+.update-status-label {
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: auto; /* Push to the right */
+  color: #fff; /* Default color, will be overridden by classes */
+  padding: 6px 12px;
+  border-radius: 15px;
+  flex-shrink: 0;
+}
+
+/* Specific colors for update status */
+.update-status-label.updated {
+  background: var(--status-updated-color);
+}
+.update-status-label.not-updated {
+  background: var(--status-outdated-color);
+}
+
+
+.last-updated-text {
+  font-size: 14px;
+  color: var(--text-subtle);
+  margin: 0;
+  text-align: right; /* Align to the right, consistent with WEAO screenshot */
+  padding-right: 5px; /* Small padding */
+}
+
+/* Warning Box styles */
+.detection-warning {
+  background: var(--warning-bg);
+  border-left: 3px solid var(--warning-border-left);
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--text-color);
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+/* Info Grid (for UNC, sUNC, Decompiler, Multi-Inject) */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adaptive columns */
+  gap: 10px; /* Space between items */
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between; /* Push label left, value right */
+  align-items: center;
+  font-size: 15px;
+  padding: 5px 0;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.05); /* Subtle separator */
+}
+
+.info-label {
+  color: var(--text-subtle);
+  flex-shrink: 0;
+  margin-right: 10px; /* Space between label and value */
+}
+
+.info-value {
+  color: var(--text-color);
+  font-weight: 500;
+  text-align: right;
+  flex-grow: 1; /* Allow value to take up remaining space */
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* Align buttons to the left */
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--badge-bg);
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all .2s ease;
+  border: 1px solid var(--border-color);
+}
+
+.action-button:hover {
+  background: var(--badge-hover-bg);
+  transform: translateY(-1px);
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #status-text {
+    font-size: 2rem;
+  }
+  .info-section-container {
+    max-width: 95%; /* Adjust width on smaller screens */
+  }
+  .info-section-title {
+      font-size: 20px;
+  }
+  .exploit-title {
+      font-size: 20px;
+  }
+  .update-status-label {
+      font-size: 14px;
+      padding: 4px 10px;
+  }
+  .last-updated-text {
+      font-size: 13px;
+  }
+  .info-grid {
+      grid-template-columns: 1fr; /* Single column on small screens */
+  }
+  .info-item {
+      font-size: 14px;
+  }
+  .detection-warning {
+    font-size: 13px;
+  }
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+  .action-button {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #status-text {
+    font-size: 1.8rem;
+  }
+  .info-section-container {
+    padding: 10px;
+  }
+}
