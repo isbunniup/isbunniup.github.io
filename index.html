@@ -3,62 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Is Bunni Up?</title>
+  <title>Is Visual Up?</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="topbar_gradientBackground__dpnr_"></div>
   <div id="status-container">
-    <h1 id="status-text">Checking Bunni's status...</h1>
+    <h1 id="status-text">Checking Visual's status...</h1>
   </div>
 
   <div class="info-section-container">
-    <h2 class="info-section-title">Bunni.lol Status</h2>
-    <div class="bunni-status-details">
+    <h2 class="info-section-title">Visual Status</h2>
+    <div class="visual-status-details">
 
       <div class="status-summary">
-        <h3 class="exploit-title">Bunni.lol</h3>
-        <span class="version-tag" id="bunni-version"></span>
+        <h3 class="exploit-title">Visual</h3>
+        <span class="version-tag" id="visual-version"></span>
         <span class="sunc-badge">s<span class="sunc-white">UNC</span></span>
-        <span class="free-badge" id="bunni-free-badge" style="display: none;">Free</span>
-        <span class="paid-badge" id="bunni-paid-badge" style="display: none;"></span> <span class="update-status-label" id="bunni-update-text"></span>
+        <span class="free-badge" id="visual-free-badge" style="display: none;">Free</span>
+        <span class="paid-badge" id="visual-paid-badge" style="display: none;"></span>
+        <span class="update-status-label" id="visual-update-text"></span>
       </div>
 
-      <p class="last-updated-text">Last updated: <span id="bunni-last-updated"></span></p>
+      <p class="last-updated-text">Last updated: <span id="visual-last-updated"></span></p>
 
-      <div class="detection-warning" id="bunni-detection-warning" style="display: none;">
+      <div class="detection-warning" id="visual-detection-warning" style="display: none;">
           This exploit might be detected by Hyperion, use at your own risk
       </div>
 
       <div class="info-grid">
            <div class="info-item">
                <span class="info-label">UNC Percentage:</span>
-               <span class="info-value" id="bunni-unc-percentage"></span>
+               <span class="info-value" id="visual-unc-percentage"></span>
            </div>
            <div class="info-item">
                <span class="info-label">sUNC Percentage:</span>
-               <span class="info-value" id="bunni-sunc-percentage"></span>
+               <span class="info-value" id="visual-sunc-percentage"></span>
            </div>
            <div class="info-item">
                <span class="info-label">Decompiler:</span>
-               <span class="info-value" id="bunni-decompiler-status"></span>
+               <span class="info-value" id="visual-decompiler-status"></span>
            </div>
            <div class="info-item">
                <span class="info-label">Multi-Inject:</span>
-               <span class="info-value" id="bunni-multi-inject-status"></span>
+               <span class="info-value" id="visual-multi-inject-status"></span>
            </div>
       </div>
 
       <div class="action-buttons">
-           <a href="#" id="bunni-website-link" target="_blank" rel="noopener noreferrer" class="action-button" style="display: none;">
+           <a href="#" id="visual-website-link" target="_blank" rel="noopener noreferrer" class="action-button" style="display: none;">
                Website
            </a>
-           <a href="#" id="bunni-discord-link" target="_blank" rel="noopener noreferrer" class="action-button" style="display: none;">
+           <a href="https://discord.gg/MUKkhVgjVu" id="visual-discord-link" target="_blank" rel="noopener noreferrer" class="action-button" style="display: none;">
                Discord
            </a>
       </div>
     </div>
+  </div>
+
+  <div id="beta-message-container" style="display: none;">
+    <p class="beta-message">Bunni [BETA] is working. Go to the #news channel in the Discord if you wish to participate in the Beta.</p>
   </div>
 
   <script src="index.js"></script>

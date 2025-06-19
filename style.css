@@ -29,6 +29,9 @@
   /* Info Item Icons (for consistency, though now we're just using text 'X' or 'No') */
   --info-check-icon: #3bea57;
   --info-x-icon: #ec3b47;
+
+  /* NEW: Beta Message Color */
+  --beta-message-color: #9333ea; /* A shade of purple */
 }
 
 body {
@@ -37,11 +40,11 @@ body {
   font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
+  justify-content: center;
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  padding-top: 60px; /* Space for the fixed topbar gradient */
+  padding-top: 60px;
   box-sizing: border-box;
 }
 
@@ -88,32 +91,33 @@ body {
   color: #f44336;
 }
 
-/* NEW: Info Section Container (replaces exploits_exploitsContainer__QdZiS and exploits_categorySection__txPqo for this purpose) */
+/* Info Section Container (replaces exploits_exploitsContainer__QdZiS and exploits_categorySection__txPqo for this purpose) */
 .info-section-container {
   width: 100%;
-  max-width: 600px; /* Limit width for better readability outside a card */
-  margin: 0 auto 30px; /* Center and add bottom margin */
+  max-width: 600px;
+  margin: 0 auto 30px;
   padding: 16px;
   box-sizing: border-box;
-  background-color: #2a2a2a; /* A slightly lighter dark gray for this section */
+  background-color: #2a2a2a;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .info-section-title {
-  font-size: 24px; /* Larger title */
+  font-size: 24px;
   font-weight: 600;
   color: var(--text-color);
-  margin-bottom: 25px; /* More space below title */
+  margin-bottom: 25px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--border-color);
   text-align: center;
 }
 
-.bunni-status-details {
+/* Renamed from .bunni-status-details to .visual-status-details */
+.visual-status-details {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Space between different sections of details */
+  gap: 15px;
   padding: 10px;
 }
 
@@ -121,7 +125,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px; /* Space between badges and title */
+  gap: 10px;
 }
 
 .exploit-title {
@@ -129,7 +133,7 @@ body {
   font-weight: 600;
   color: var(--text-color);
   margin: 0;
-  flex-shrink: 0; /* Prevent title from shrinking */
+  flex-shrink: 0;
 }
 
 .version-tag {
@@ -179,14 +183,13 @@ body {
 .update-status-label {
   font-size: 16px;
   font-weight: 500;
-  margin-left: auto; /* Push to the right */
-  color: #fff; /* Default color, will be overridden by classes */
+  margin-left: auto;
+  color: #fff;
   padding: 6px 12px;
   border-radius: 15px;
   flex-shrink: 0;
 }
 
-/* Specific colors for update status */
 .update-status-label.updated {
   background: var(--status-updated-color);
 }
@@ -199,8 +202,8 @@ body {
   font-size: 14px;
   color: var(--text-subtle);
   margin: 0;
-  text-align: right; /* Align to the right, consistent with WEAO screenshot */
-  padding-right: 5px; /* Small padding */
+  text-align: right;
+  padding-right: 5px;
 }
 
 /* Warning Box styles */
@@ -218,31 +221,31 @@ body {
 /* Info Grid (for UNC, sUNC, Decompiler, Multi-Inject) */
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adaptive columns */
-  gap: 10px; /* Space between items */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .info-item {
   display: flex;
-  justify-content: space-between; /* Push label left, value right */
+  justify-content: space-between;
   align-items: center;
   font-size: 15px;
   padding: 5px 0;
-  border-bottom: 1px dotted rgba(255, 255, 255, 0.05); /* Subtle separator */
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.05);
 }
 
 .info-label {
   color: var(--text-subtle);
   flex-shrink: 0;
-  margin-right: 10px; /* Space between label and value */
+  margin-right: 10px;
 }
 
 .info-value {
   color: var(--text-color);
   font-weight: 500;
   text-align: right;
-  flex-grow: 1; /* Allow value to take up remaining space */
+  flex-grow: 1;
 }
 
 /* Action Buttons */
@@ -250,7 +253,7 @@ body {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  justify-content: flex-start; /* Align buttons to the left */
+  justify-content: flex-start;
 }
 
 .action-button {
@@ -277,13 +280,32 @@ body {
   transform: translateY(0);
 }
 
+/* NEW: Beta Message Styling */
+#beta-message-container {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: rgba(147, 51, 234, 0.15); /* Light purple background */
+  border: 1px solid var(--beta-message-color);
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.beta-message {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--beta-message-color);
+  margin: 0;
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   #status-text {
     font-size: 2rem;
   }
   .info-section-container {
-    max-width: 95%; /* Adjust width on smaller screens */
+    max-width: 95%;
   }
   .info-section-title {
       font-size: 20px;
@@ -299,7 +321,7 @@ body {
       font-size: 13px;
   }
   .info-grid {
-      grid-template-columns: 1fr; /* Single column on small screens */
+      grid-template-columns: 1fr;
   }
   .info-item {
       font-size: 14px;
@@ -316,6 +338,9 @@ body {
     width: 100%;
     justify-content: center;
     padding: 12px 14px;
+  }
+  .beta-message {
+      font-size: 1rem;
   }
 }
 
