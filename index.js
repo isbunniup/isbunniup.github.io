@@ -16,14 +16,19 @@ const visualDecompilerStatus = document.getElementById('visual-decompiler-status
 const visualMultiInjectStatus = document.getElementById('visual-multi-inject-status');
 
 const visualWebsiteLink = document.getElementById('visual-website-link');
-const visualDiscordLink = document.getElementById('visual-discord-link'); // Get the element
+const visualDiscordLink = document.getElementById('visual-discord-link');
 
-// NEW: Beta message element
+// Beta message element
 const betaMessageContainer = document.getElementById('beta-message-container');
 
-async function checkVisualStatus() { // Renamed function
+// NEW: Footer elements for dynamic styling
+const footerLine = document.getElementById('footer-dynamic-line');
+const appFooter = document.querySelector('.app-footer');
+
+
+async function checkVisualStatus() {
   try {
-    // IMPORTANT: Upstream URL remains 'Bunni.lol' as per your clarification
+    // IMPORTANT: Upstream URL remains 'Bunni.lol'
     const response = await fetch('https://isbunniup-proxy.a91168823.workers.dev/api/status/exploits/Bunni.lol');
 
     if (!response.ok) {
@@ -36,10 +41,16 @@ async function checkVisualStatus() { // Renamed function
       statusText.textContent = 'Yes, Visual is Up.';
       statusText.classList.add('green');
       statusText.classList.remove('red');
+      // Set footer dynamic colors for "Up" status
+      document.documentElement.style.setProperty('--footer-dynamic-line-color', '#4caf50'); /* Green */
+      document.documentElement.style.setProperty('--footer-text-color-dynamic', '#a0a0a0'); /* Keep subtle grey for text */
     } else {
       statusText.textContent = 'No, Visual is Down.';
       statusText.classList.add('red');
       statusText.classList.remove('green');
+      // Set footer dynamic colors for "Down" status
+      document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336'); /* Red */
+      document.documentElement.style.setProperty('--footer-text-color-dynamic', '#a0a0a0'); /* Keep subtle grey for text */
     }
 
     // Populate Visual details
@@ -115,14 +126,19 @@ async function checkVisualStatus() { // Renamed function
 
       // Set the new Discord link here
       visualDiscordLink.href = 'https://discord.gg/MUKkhVgjVu';
-      visualDiscordLink.style.display = 'inline-flex'; // Always display if a link is hardcoded
+      visualDiscordLink.style.display = 'inline-flex';
 
-      // NEW: Show beta message as "Bunni [Beta] is working"
+      // Show beta message as "Bunni [Beta] is working"
       betaMessageContainer.style.display = 'block';
+
+      // If data is successfully fetched, the footer should be visible.
+      appFooter.style.display = 'block'; // Ensure footer is visible
+
 
     } else {
       infoSectionContainer.style.display = 'none';
       betaMessageContainer.style.display = 'none';
+      appFooter.style.display = 'none'; // Hide footer on no data
     }
 
   } catch (error) {
@@ -132,6 +148,10 @@ async function checkVisualStatus() { // Renamed function
     statusText.classList.remove('green');
     infoSectionContainer.style.display = 'none';
     betaMessageContainer.style.display = 'none';
+    appFooter.style.display = 'none'; // Hide footer on error
+    // Set footer dynamic colors to a default or error state
+    document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336'); /* Red for error */
+    document.documentElement.style.setProperty('--footer-text-color-dynamic', '#a0a0a0');
   }
 }
 

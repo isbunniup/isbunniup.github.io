@@ -30,8 +30,12 @@
   --info-check-icon: #3bea57;
   --info-x-icon: #ec3b47;
 
-  /* NEW: Beta Message Color */
+  /* Beta Message Color */
   --beta-message-color: #9333ea; /* A shade of purple */
+
+  /* NEW: Footer Colors (Dynamic) */
+  --footer-dynamic-line-color: #a0a0a0; /* Default subtle color for line */
+  --footer-text-color-dynamic: #a0a0a0; /* Default subtle color for text */
 }
 
 body {
@@ -40,13 +44,23 @@ body {
   font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between; /* Pushes content to top/middle, footer to bottom */
   align-items: center;
   min-height: 100vh;
   margin: 0;
   padding-top: 60px;
   box-sizing: border-box;
 }
+
+/* Ensure main content areas can grow if needed or simply occupy their space */
+#status-container,
+.info-section-container,
+#beta-message-container {
+  flex-shrink: 0; /* Prevent these from shrinking */
+  /* If you want the content between topbar and footer to take up available space,
+     you would wrap these in a <main> tag and apply flex-grow: 1 to <main> */
+}
+
 
 /* Topbar Gradient */
 .topbar_gradientBackground__dpnr_ {
@@ -91,7 +105,7 @@ body {
   color: #f44336;
 }
 
-/* Info Section Container (replaces exploits_exploitsContainer__QdZiS and exploits_categorySection__txPqo for this purpose) */
+/* Info Section Container */
 .info-section-container {
   width: 100%;
   max-width: 600px;
@@ -113,7 +127,6 @@ body {
   text-align: center;
 }
 
-/* Renamed from .bunni-status-details to .visual-status-details */
 .visual-status-details {
   display: flex;
   flex-direction: column;
@@ -280,11 +293,11 @@ body {
   transform: translateY(0);
 }
 
-/* NEW: Beta Message Styling */
+/* Beta Message Styling */
 #beta-message-container {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: rgba(147, 51, 234, 0.15); /* Light purple background */
+  background-color: rgba(147, 51, 234, 0.15);
   border: 1px solid var(--beta-message-color);
   border-radius: 8px;
   text-align: center;
@@ -296,6 +309,43 @@ body {
   font-weight: 600;
   color: var(--beta-message-color);
   margin: 0;
+}
+
+/* NEW FOOTER STYLING (Simple.css inspired) */
+.app-footer {
+  width: 100%;
+  max-width: 900px; /* Same max-width as other main containers */
+  margin-top: auto; /* Pushes the footer to the bottom */
+  padding: 20px 16px;
+  box-sizing: border-box; /* Include padding in width */
+  text-align: center;
+  color: var(--footer-text-color-dynamic); /* Dynamic text color */
+  font-size: 0.9rem;
+  line-height: 1.5;
+  transition: color 0.3s ease; /* Smooth transition for dynamic color */
+}
+
+.footer-line {
+  width: 100px; /* Fixed width for the line */
+  height: 2px;
+  background-color: var(--footer-dynamic-line-color); /* Dynamic line color */
+  margin: 0 auto 15px; /* Center the line and add space below */
+  border-radius: 1px;
+  transition: background-color 0.3s ease; /* Smooth transition for dynamic color */
+}
+
+.app-footer p {
+  margin: 5px 0; /* Space between lines in footer */
+}
+
+.app-footer a {
+  color: inherit; /* Inherit color from parent (will be dynamic) */
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.app-footer a:hover {
+  color: var(--text-color); /* Always white on hover for visibility */
 }
 
 
