@@ -293,6 +293,24 @@ body {
   transform: translateY(0);
 }
 
+/* Notice Message Styling */
+#notice-message-container {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--warning-bg);
+  border: 1px solid var(--warning-yellow);
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.notice-message {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--warning-yellow);
+  margin: 0;
+}
+
 /* Beta Message Styling */
 #beta-message-container {
   margin-top: 20px;
