@@ -366,6 +366,39 @@ body {
   color: var(--text-color); /* Always white on hover for visibility */
 }
 
+/* NEW Legal Dialog Styling */
+.legal-container {
+  position: relative; /* Establishes a positioning context for the dialog box */
+  display: inline-block; /* Allows the container to fit the content width */
+}
+
+.legal-trigger {
+  cursor: pointer; /* Changes mouse to a pointer on hover */
+  text-decoration: underline dotted; /* Indicates interactivity */
+}
+
+.legal-dialog-box {
+  display: none; /* Hidden by default */
+  position: absolute;
+  bottom: 125%; /* Positions the box above the trigger text */
+  left: 50%;
+  transform: translateX(-50%); /* Centers the box horizontally */
+  width: 280px; /* Or max-width as you prefer */
+  padding: 15px;
+  background-color: #333333; /* A slightly lighter dark color for contrast */
+  color: var(--text-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  font-size: 0.85rem;
+  text-align: left;
+  line-height: 1.4;
+  z-index: 10; /* Ensures it appears above other footer content */
+}
+
+.legal-container:hover .legal-dialog-box {
+  display: block;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
