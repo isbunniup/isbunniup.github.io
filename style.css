@@ -57,8 +57,6 @@ body {
 .info-section-container,
 #beta-message-container {
   flex-shrink: 0; /* Prevent these from shrinking */
-  /* If you want the content between topbar and footer to take up available space,
-     you would wrap these in a <main> tag and apply flex-grow: 1 to <main> */
 }
 
 
@@ -127,7 +125,7 @@ body {
   text-align: center;
 }
 
-.visual-status-details {
+.bunni-status-details {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -293,99 +291,63 @@ body {
   transform: translateY(0);
 }
 
-/* Notice Message Styling */
-#notice-message-container {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: var(--warning-bg);
-  border: 1px solid var(--warning-yellow);
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.notice-message {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--warning-yellow);
-  margin: 0;
-}
-
-/* Beta Message Styling */
-#beta-message-container {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: rgba(147, 51, 234, 0.15);
-  border: 1px solid var(--beta-message-color);
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.beta-message {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--beta-message-color);
-  margin: 0;
-}
-
-/* NEW FOOTER STYLING (Simple.css inspired) */
+/* Footer Styling */
 .app-footer {
   width: 100%;
-  max-width: 900px; /* Same max-width as other main containers */
-  margin-top: auto; /* Pushes the footer to the bottom */
+  max-width: 900px; 
+  margin-top: auto; 
   padding: 20px 16px;
-  box-sizing: border-box; /* Include padding in width */
+  box-sizing: border-box; 
   text-align: center;
-  color: var(--footer-text-color-dynamic); /* Dynamic text color */
+  color: var(--footer-text-color-dynamic); 
   font-size: 0.9rem;
   line-height: 1.5;
-  transition: color 0.3s ease; /* Smooth transition for dynamic color */
+  transition: color 0.3s ease;
 }
 
 .footer-line {
-  width: 100px; /* Fixed width for the line */
+  width: 100px; 
   height: 2px;
-  background-color: var(--footer-dynamic-line-color); /* Dynamic line color */
-  margin: 0 auto 15px; /* Center the line and add space below */
+  background-color: var(--footer-dynamic-line-color); 
+  margin: 0 auto 15px; 
   border-radius: 1px;
-  transition: background-color 0.3s ease; /* Smooth transition for dynamic color */
+  transition: background-color 0.3s ease;
 }
 
 .app-footer p {
-  margin: 5px 0; /* Space between lines in footer */
+  margin: 5px 0;
 }
 
 .app-footer a {
-  color: inherit; /* Inherit color from parent (will be dynamic) */
+  color: inherit; 
   text-decoration: underline;
   transition: color 0.3s ease;
 }
 
 .app-footer a:hover {
-  color: var(--text-color); /* Always white on hover for visibility */
+  color: var(--text-color); 
 }
 
-/* NEW Legal Dialog Styling */
+/* Legal Dialog Styling */
 .legal-container {
-  position: relative; /* Establishes a positioning context for the dialog box */
-  display: inline-block; /* Allows the container to fit the content width */
+  position: relative;
+  display: inline-block;
 }
 
 .legal-trigger {
-  cursor: pointer; /* Changes mouse to a pointer on hover */
-  text-decoration: underline dotted; /* Indicates interactivity */
+  cursor: pointer; 
+  text-decoration: underline dotted;
 }
 
 .legal-dialog-box {
-  display: none; /* Hidden by default */
+  display: none; 
   position: absolute;
-  bottom: 125%; /* Positions the box above the trigger text */
+  bottom: 125%; 
   left: 50%;
-  transform: translateX(-50%); /* Centers the box horizontally */
-  width: 280px; /* Or max-width as you prefer */
+  transform: translateX(-50%);
+  width: 280px; 
   padding: 15px;
-  background-color: #333333; /* A slightly lighter dark color for contrast */
+  background-color: #333333; 
   color: var(--text-subtle);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -393,7 +355,7 @@ body {
   font-size: 0.85rem;
   text-align: left;
   line-height: 1.4;
-  z-index: 10; /* Ensures it appears above other footer content */
+  z-index: 10;
 }
 
 .legal-container:hover .legal-dialog-box {
@@ -439,9 +401,6 @@ body {
     width: 100%;
     justify-content: center;
     padding: 12px 14px;
-  }
-  .beta-message {
-      font-size: 1rem;
   }
 }
 

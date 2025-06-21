@@ -1,34 +1,30 @@
 const statusText = document.getElementById('status-text');
 const infoSectionContainer = document.querySelector('.info-section-container');
 
-// Renamed references from 'bunni' to 'visual'
-const visualTitle = document.querySelector('.exploit-title');
-const visualVersion = document.getElementById('visual-version');
-const visualFreeBadge = document.getElementById('visual-free-badge');
-const visualPaidBadge = document.getElementById('visual-paid-badge');
-const visualUpdateText = document.getElementById('visual-update-text');
-const visualLastUpdated = document.getElementById('visual-last-updated');
-const visualDetectionWarning = document.getElementById('visual-detection-warning');
+const bunniTitle = document.querySelector('.exploit-title');
+const bunniVersion = document.getElementById('bunni-version');
+const bunniFreeBadge = document.getElementById('bunni-free-badge');
+const bunniPaidBadge = document.getElementById('bunni-paid-badge');
+const bunniUpdateText = document.getElementById('bunni-update-text');
+const bunniLastUpdated = document.getElementById('bunni-last-updated');
+const bunniDetectionWarning = document.getElementById('bunni-detection-warning');
 
-const visualUncPercentage = document.getElementById('visual-unc-percentage');
-const visualSuncPercentage = document.getElementById('visual-sunc-percentage');
-const visualDecompilerStatus = document.getElementById('visual-decompiler-status');
-const visualMultiInjectStatus = document.getElementById('visual-multi-inject-status');
+const bunniUncPercentage = document.getElementById('bunni-unc-percentage');
+const bunniSuncPercentage = document.getElementById('bunni-sunc-percentage');
+const bunniDecompilerStatus = document.getElementById('bunni-decompiler-status');
+const bunniMultiInjectStatus = document.getElementById('bunni-multi-inject-status');
 
-const visualWebsiteLink = document.getElementById('visual-website-link');
-const visualDiscordLink = document.getElementById('visual-discord-link');
+const bunniWebsiteLink = document.getElementById('bunni-website-link');
+const bunniDiscordLink = document.getElementById('bunni-discord-link');
 
-// Beta message element
-const betaMessageContainer = document.getElementById('beta-message-container');
-
-// NEW: Footer elements for dynamic styling
+// Footer elements for dynamic styling
 const footerLine = document.getElementById('footer-dynamic-line');
 const appFooter = document.querySelector('.app-footer');
 
 
-async function checkVisualStatus() {
+async function checkBunniStatus() {
   try {
-    // IMPORTANT: Upstream URL remains 'Bunni.lol'
+    // IMPORTANT: Make sure this is your new, working Cloudflare Worker URL
     const response = await fetch('https://isbunniup-proxy.a91168823.workers.dev/api/status/exploits/Bunni.lol');
 
     if (!response.ok) {
@@ -38,121 +34,102 @@ async function checkVisualStatus() {
 
     // Update main status text
     if (data.updateStatus === true) {
-      statusText.textContent = 'Yes, Visual is Up.';
+      statusText.textContent = 'Yes, Bunni is Up.';
       statusText.classList.add('green');
       statusText.classList.remove('red');
-      // Set footer dynamic colors for "Up" status
-      document.documentElement.style.setProperty('--footer-dynamic-line-color', '#4caf50'); /* Green */
-      document.documentElement.style.setProperty('--footer-text-color-dynamic', '#a0a0a0'); /* Keep subtle grey for text */
+      document.documentElement.style.setProperty('--footer-dynamic-line-color', '#4caf50'); 
     } else {
-      statusText.textContent = 'No, Visual is Down.';
+      statusText.textContent = 'No, Bunni is Down.';
       statusText.classList.add('red');
       statusText.classList.remove('green');
-      // Set footer dynamic colors for "Down" status
-      document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336'); /* Red */
-      document.documentElement.style.setProperty('--footer-text-color-dynamic', '#a0a0a0'); /* Keep subtle grey for text */
+      document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336');
     }
 
-    // Populate Visual details
+    // Populate Bunni details
     if (data) {
       infoSectionContainer.style.display = 'block';
 
-      // Update update status label
       if (data.updateStatus === true) {
-        visualUpdateText.textContent = 'Updated';
-        visualUpdateText.classList.add('updated');
-        visualUpdateText.classList.remove('not-updated');
+        bunniUpdateText.textContent = 'Updated';
+        bunniUpdateText.classList.add('updated');
+        bunniUpdateText.classList.remove('not-updated');
       } else {
-        visualUpdateText.textContent = 'Not Updated';
-        visualUpdateText.classList.add('not-updated');
-        visualUpdateText.classList.remove('updated');
+        bunniUpdateText.textContent = 'Not Updated';
+        bunniUpdateText.classList.add('not-updated');
+        bunniUpdateText.classList.remove('updated');
       }
 
-      visualTitle.textContent = 'Visual';
-      visualVersion.textContent = data.version || 'N/A';
-      visualLastUpdated.textContent = data.updatedDate || 'N/A';
+      bunniTitle.textContent = 'Bunni';
+      bunniVersion.textContent = data.version || 'N/A';
+      bunniLastUpdated.textContent = data.updatedDate || 'N/A';
 
-      // Free/Paid badge and price
       if (data.free === true) {
-          visualFreeBadge.style.display = 'inline-block';
-          visualPaidBadge.style.display = 'none';
+          bunniFreeBadge.style.display = 'inline-block';
+          bunniPaidBadge.style.display = 'none';
       } else {
-          visualFreeBadge.style.display = 'none';
-          visualPaidBadge.style.display = 'inline-block';
-          visualPaidBadge.textContent = data.priceText || 'Paid';
+          bunniFreeBadge.style.display = 'none';
+          bunniPaidBadge.style.display = 'inline-block';
+          bunniPaidBadge.textContent = data.priceText || 'Paid';
       }
 
-      // Detection Warning
       if (data.detected === true) {
-          visualDetectionWarning.style.display = 'block';
+          bunniDetectionWarning.style.display = 'block';
       } else {
-          visualDetectionWarning.style.display = 'none';
+          bunniDetectionWarning.style.display = 'none';
       }
 
-      // Populate info items
       if (typeof data.uncPercentage === 'number') {
-          visualUncPercentage.textContent = data.uncPercentage + '%';
+          bunniUncPercentage.textContent = data.uncPercentage + '%';
       } else if (typeof data.uncStatus === 'boolean') {
-          visualUncPercentage.textContent = visualUncStatus ? 'Yes' : 'No';
+          bunniUncPercentage.textContent = data.uncStatus ? 'Yes' : 'No';
       } else {
-          visualUncPercentage.textContent = 'N/A';
+          bunniUncPercentage.textContent = 'N/A';
       }
 
       if (typeof data.suncPercentage === 'number') {
-          visualSuncPercentage.textContent = data.suncPercentage + '%';
+          bunniSuncPercentage.textContent = data.suncPercentage + '%';
       } else {
-          visualSuncPercentage.textContent = 'N/A';
+          bunniSuncPercentage.textContent = 'N/A';
       }
 
       if (typeof data.decompiler === 'boolean') {
-          visualDecompilerStatus.textContent = data.decompiler ? 'X' : 'No';
+          bunniDecompilerStatus.textContent = data.decompiler ? 'X' : 'No';
       } else {
-          visualDecompilerStatus.textContent = 'N/A';
+          bunniDecompilerStatus.textContent = 'N/A';
       }
 
       if (typeof data.multiInject === 'boolean') {
-          visualMultiInjectStatus.textContent = data.multiInject ? 'X' : 'No';
+          bunniMultiInjectStatus.textContent = data.multiInject ? 'X' : 'No';
       } else {
-          visualMultiInjectStatus.textContent = 'N/A';
+          bunniMultiInjectStatus.textContent = 'N/A';
       }
 
-      // Action links
       if (data.websitelink) {
-          visualWebsiteLink.href = data.websitelink;
-          visualWebsiteLink.style.display = 'inline-flex';
+          bunniWebsiteLink.href = data.websitelink;
+          bunniWebsiteLink.style.display = 'inline-flex';
       } else {
-          visualWebsiteLink.style.display = 'none';
+          bunniWebsiteLink.style.display = 'none';
       }
 
-      // Set the new Discord link here
-      visualDiscordLink.href = 'https://discord.gg/MUKkhVgjVu';
-      visualDiscordLink.style.display = 'inline-flex';
+      bunniDiscordLink.href = 'https://discord.gg/MUKkhVgjVu';
+      bunniDiscordLink.style.display = 'inline-flex';
 
-      // Show beta message as "Bunni [Beta] is working"
-      betaMessageContainer.style.display = 'block';
-
-      // If data is successfully fetched, the footer should be visible.
-      appFooter.style.display = 'block'; // Ensure footer is visible
-
+      appFooter.style.display = 'block';
 
     } else {
       infoSectionContainer.style.display = 'none';
-      betaMessageContainer.style.display = 'none';
-      appFooter.style.display = 'none'; // Hide footer on no data
+      appFooter.style.display = 'none';
     }
 
   } catch (error) {
     console.error('Error checking status:', error);
-    statusText.textContent = 'Unable to check Visual\'s status.';
+    statusText.textContent = 'Unable to check Bunni\'s status.';
     statusText.classList.add('red');
     statusText.classList.remove('green');
     infoSectionContainer.style.display = 'none';
-    betaMessageContainer.style.display = 'none';
-    appFooter.style.display = 'none'; // Hide footer on error
-    // Set footer dynamic colors to a default or error state
-    document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336'); /* Red for error */
-    document.documentElement.style.setProperty('--footer-text-color-dynamic', '#a0a0a0');
+    appFooter.style.display = 'none';
+    document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336');
   }
 }
 
-checkVisualStatus();
+checkBunniStatus();
