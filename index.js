@@ -118,8 +118,8 @@ async function checkBunniStatus() {
       updateText('bunni-unc-percentage', uncValue);
 
       updateText('bunni-sunc-percentage', typeof data.suncPercentage === 'number' ? `${data.suncPercentage}%` : 'N/A');
-      updateText('bunni-decompiler-status', typeof data.decompiler === 'boolean' ? (data.decompiler ? 'X' : 'No') : 'N/A');
-      updateText('bunni-multi-inject-status', typeof data.multiInject === 'boolean' ? (data.multiInject ? 'X' : 'No') : 'N/A');
+      updateText('bunni-decompiler-status', typeof data.decompiler === 'boolean' ? (data.decompiler ? '✅' : 'No') : 'N/A');
+      updateText('bunni-multi-inject-status', typeof data.multiInject === 'boolean' ? (data.multiInject ? '✅' : 'No') : 'N/A');
       
       // --- Update Action Buttons ---
       if (data.websitelink) {
