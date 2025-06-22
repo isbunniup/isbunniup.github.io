@@ -1,135 +1,157 @@
-const statusText = document.getElementById('status-text');
-const infoSectionContainer = document.querySelector('.info-section-container');
+// --- Defensive DOM Manipulation Helpers ---
+// These functions check if an element exists before trying to change it.
+// This prevents the script from crashing if you delete an element from the HTML.
 
-const bunniTitle = document.querySelector('.exploit-title');
-const bunniVersion = document.getElementById('bunni-version');
-const bunniFreeBadge = document.getElementById('bunni-free-badge');
-const bunniPaidBadge = document.getElementById('bunni-paid-badge');
-const bunniUpdateText = document.getElementById('bunni-update-text');
-const bunniLastUpdated = document.getElementById('bunni-last-updated');
-const bunniDetectionWarning = document.getElementById('bunni-detection-warning');
+/**
+ * Safely updates the text content of an element.
+ * @param {string} id The ID of the element to update.
+ * @param {string} text The text to set.
+ */
+const updateText = (id, text) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.textContent = text;
+  } else {
+    console.warn(`Element with ID "${id}" not found.`);
+  }
+};
 
-const bunniUncPercentage = document.getElementById('bunni-unc-percentage');
-const bunniSuncPercentage = document.getElementById('bunni-sunc-percentage');
-const bunniDecompilerStatus = document.getElementById('bunni-decompiler-status');
-const bunniMultiInjectStatus = document.getElementById('bunni-multi-inject-status');
+/**
+ * Safely updates a style property of an element.
+ * @param {string} id The ID of the element.
+ * @param {string} styleProperty The CSS property to change (e.g., 'display').
+ * @param {string} value The value to set the property to.
+ */
+const updateStyle = (id, styleProperty, value) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.style[styleProperty] = value;
+  }
+};
 
-const bunniWebsiteLink = document.getElementById('bunni-website-link');
-const bunniDiscordLink = document.getElementById('bunni-discord-link');
+/**
+ * Safely adds or removes a class from an element.
+ * @param {string} id The ID of the element.
+ * @param {string} className The class to toggle.
+ * @param {boolean} add True to add the class, false to remove it.
+ */
+const toggleClass = (id, className, add) => {
+    const element = document.getElementById(id);
+    if (element) {
+        element.classList.toggle(className, add);
+    }
+};
 
-// Footer elements for dynamic styling
-const footerLine = document.getElementById('footer-dynamic-line');
-const appFooter = document.querySelector('.app-footer');
+/**
+ * Safely sets the href attribute of a link.
+ * @param {string} id The ID of the anchor element.
+ * @param {string} url The URL to set.
+ */
+const setHref = (id, url) => {
+    const element = document.getElementById(id);
+    if (element) {
+        element.href = url;
+    }
+};
 
+
+// --- Main Application Logic ---
 
 async function checkBunniStatus() {
+  const statusTextId = 'status-text';
+  const infoContainerId = 'bunni-info-container';
+  const footerId = 'app-footer';
+  const footerLineId = 'footer-dynamic-line';
+
   try {
     // IMPORTANT: Make sure this is your new, working Cloudflare Worker URL
     const response = await fetch('https://isbunniup-proxy.a91168823.workers.dev/api/status/exploits/Bunni.lol');
 
     if (!response.ok) {
-        throw new Error('Network response was not ok');
+      throw new Error(`Network response was not ok (${response.status})`);
     }
     const data = await response.json();
 
-    // Update main status text
-    if (data.updateStatus === true) {
-      statusText.textContent = 'Yes, Bunni is Up.';
-      statusText.classList.add('green');
-      statusText.classList.remove('red');
-      document.documentElement.style.setProperty('--footer-dynamic-line-color', '#4caf50'); 
-    } else {
-      statusText.textContent = 'No, Bunni is Down.';
-      statusText.classList.add('red');
-      statusText.classList.remove('green');
-      document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336');
-    }
+    const isUp = data.updateStatus === true;
 
-    // Populate Bunni details
-    if (data) {
-      infoSectionContainer.style.display = 'block';
+    // --- Update Main Status ---
+    // This will work even if the footer or info sections are deleted.
+    updateText(statusTextId, isUp ? 'Yes, Bunni is Up.' : 'No, Bunni is Down.');
+    toggleClass(statusTextId, 'green', isUp);
+    toggleClass(statusTextId, 'red', !isUp);
+    document.documentElement.style.setProperty('--footer-dynamic-line-color', isUp ? '#4caf50' : '#f44336');
 
-      if (data.updateStatus === true) {
-        bunniUpdateText.textContent = 'Updated';
-        bunniUpdateText.classList.add('updated');
-        bunniUpdateText.classList.remove('not-updated');
-      } else {
-        bunniUpdateText.textContent = 'Not Updated';
-        bunniUpdateText.classList.add('not-updated');
-        bunniUpdateText.classList.remove('updated');
+    // --- Populate Bunni Details Section ---
+    // This entire block will be safely skipped if 'bunni-info-container' does not exist.
+    const infoContainer = document.getElementById(infoContainerId);
+    if (data && infoContainer) {
+      infoContainer.style.display = 'block';
+
+      // Update status label
+      updateText('bunni-update-text', isUp ? 'Updated' : 'Not Updated');
+      toggleClass('bunni-update-text', 'updated', isUp);
+      toggleClass('bunni-update-text', 'not-updated', !isUp);
+      
+      // Update basic info
+      updateText('bunni-version', data.version || 'N/A');
+      updateText('bunni-last-updated', data.updatedDate || 'N/A');
+
+      // Handle Free/Paid badges
+      const isFree = data.free === true;
+      updateStyle('bunni-free-badge', 'display', isFree ? 'inline-block' : 'none');
+      updateStyle('bunni-paid-badge', 'display', isFree ? 'none' : 'inline-block');
+      if (!isFree) {
+        updateText('bunni-paid-badge', data.priceText || 'Paid');
       }
 
-      bunniTitle.textContent = 'Bunni';
-      bunniVersion.textContent = data.version || 'N/A';
-      bunniLastUpdated.textContent = data.updatedDate || 'N/A';
-
-      if (data.free === true) {
-          bunniFreeBadge.style.display = 'inline-block';
-          bunniPaidBadge.style.display = 'none';
-      } else {
-          bunniFreeBadge.style.display = 'none';
-          bunniPaidBadge.style.display = 'inline-block';
-          bunniPaidBadge.textContent = data.priceText || 'Paid';
-      }
-
-      if (data.detected === true) {
-          bunniDetectionWarning.style.display = 'block';
-      } else {
-          bunniDetectionWarning.style.display = 'none';
-      }
-
+      // Show/hide detection warning
+      updateStyle('bunni-detection-warning', 'display', data.detected === true ? 'block' : 'none');
+      
+      // --- Update Info Grid ---
+      // Each of these will now fail silently without stopping the script.
+      let uncValue = 'N/A';
       if (typeof data.uncPercentage === 'number') {
-          bunniUncPercentage.textContent = data.uncPercentage + '%';
+          uncValue = `${data.uncPercentage}%`;
       } else if (typeof data.uncStatus === 'boolean') {
-          bunniUncPercentage.textContent = data.uncStatus ? 'Yes' : 'No';
-      } else {
-          bunniUncPercentage.textContent = 'N/A';
+          uncValue = data.uncStatus ? 'Yes' : 'No';
       }
+      updateText('bunni-unc-percentage', uncValue);
 
-      if (typeof data.suncPercentage === 'number') {
-          bunniSuncPercentage.textContent = data.suncPercentage + '%';
-      } else {
-          bunniSuncPercentage.textContent = 'N/A';
-      }
-
-      if (typeof data.decompiler === 'boolean') {
-          bunniDecompilerStatus.textContent = data.decompiler ? 'X' : 'No';
-      } else {
-          bunniDecompilerStatus.textContent = 'N/A';
-      }
-
-      if (typeof data.multiInject === 'boolean') {
-          bunniMultiInjectStatus.textContent = data.multiInject ? 'X' : 'No';
-      } else {
-          bunniMultiInjectStatus.textContent = 'N/A';
-      }
-
+      updateText('bunni-sunc-percentage', typeof data.suncPercentage === 'number' ? `${data.suncPercentage}%` : 'N/A');
+      updateText('bunni-decompiler-status', typeof data.decompiler === 'boolean' ? (data.decompiler ? 'X' : 'No') : 'N/A');
+      updateText('bunni-multi-inject-status', typeof data.multiInject === 'boolean' ? (data.multiInject ? 'X' : 'No') : 'N/A');
+      
+      // --- Update Action Buttons ---
       if (data.websitelink) {
-          bunniWebsiteLink.href = data.websitelink;
-          bunniWebsiteLink.style.display = 'inline-flex';
+          setHref('bunni-website-link', data.websitelink);
+          updateStyle('bunni-website-link', 'display', 'inline-flex');
       } else {
-          bunniWebsiteLink.style.display = 'none';
+          updateStyle('bunni-website-link', 'display', 'none');
       }
+      
+      // Always show discord link, but safely.
+      setHref('bunni-discord-link', 'https://discord.gg/MUKkhVgjVu');
+      updateStyle('bunni-discord-link', 'display', 'inline-flex');
 
-      bunniDiscordLink.href = 'https://discord.gg/MUKkhVgjVu';
-      bunniDiscordLink.style.display = 'inline-flex';
-
-      appFooter.style.display = 'block';
-
-    } else {
-      infoSectionContainer.style.display = 'none';
-      appFooter.style.display = 'none';
+    } else if (!infoContainer) {
+        console.warn(`Info container with ID "${infoContainerId}" not found. Skipping details update.`);
     }
+
+    // Show the footer if it exists
+    updateStyle(footerId, 'display', 'block');
 
   } catch (error) {
     console.error('Error checking status:', error);
-    statusText.textContent = 'Unable to check Bunni\'s status.';
-    statusText.classList.add('red');
-    statusText.classList.remove('green');
-    infoSectionContainer.style.display = 'none';
-    appFooter.style.display = 'none';
+    updateText(statusTextId, 'Unable to check Bunni\'s status.');
+    toggleClass(statusTextId, 'red', true);
+    toggleClass(statusTextId, 'green', false);
+
+    // Hide optional sections on error
+    updateStyle(infoContainerId, 'display', 'none');
+    updateStyle(footerId, 'display', 'block'); // Still show the footer on error
     document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336');
   }
 }
 
+// Initial call to fetch status
 checkBunniStatus();

@@ -13,12 +13,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
   <div class="topbar_gradientBackground__dpnr_"></div>
+
   <div id="status-container">
     <h1 id="status-text">Checking Bunni's status...</h1>
   </div>
 
-  <div class="info-section-container">
+  <div id="bunni-info-container" class="info-section-container" style="display: none;">
     <h2 class="info-section-title">Bunni Status</h2>
     <div class="bunni-status-details">
 
@@ -67,7 +69,16 @@
     </div>
   </div>
 
-  <footer class="app-footer">
+  <div id="temporary-notice-container">
+    <p>
+      <strong>Note about sUNC:</strong> The current sUNC should be 100%, but there is a bug that causes <code>hookfunction</code> and <code>restorefunction</code> to fail. <br><br>
+      
+      <strong>Note about Decompiler:</strong> The WEAO API shows Bunni's decompiler as unavailable. They are available, the decompiler.exe needs to be ran manually (can be found inside the bin folder).<br><br>
+
+      <strong>Note about Multi-Inject:</strong> Similarly with the decompiler, there is a beta multi-inject feature. There is a tutorial in the Discord server's <code>#how-to-use</code> channel.
+  </div>
+
+  <footer id="app-footer" class="app-footer" style="display: none;">
     <div class="footer-line" id="footer-dynamic-line"></div>
     <p>This website uses the <a href="https://docs.weao.xyz/" target="_blank" rel="noopener noreferrer">WEAO API</a>.</p>
     <p>This website is AI generated and/or used AI tools to create the website 🤑</p>
