@@ -2,8 +2,17 @@
   /* Core Colors */
   --bg-dark: #1e1e1e;
   --text-color: #ffffff;
-  --text-subtle: #a0a0a0;
+  --text-subtle: #dbdbdb;
   --border-color: rgba(255, 255, 255, 0.1);
+
+  /* NEW: Brand Color */
+  --brand-color: #4787fd;
+  --brand-color-light: rgb(111, 123, 255); /* A lighter shade for hover effects */
+  --brand-color-dark-bg: hsl(236, 51%, 40%); /* Darker shade for gradient */
+  --brand-color-darker-bg: hsl(236, 70%, 25%);/* Darkest shade for gradient */
+  --brand-box-shadow: rgba(101, 113, 255, 0.3);
+  --brand-box-shadow-hover: rgba(101, 113, 255, 0.4);
+
 
   /* Topbar Gradient */
   --gradient-color-1: #ff0766;
@@ -34,8 +43,8 @@
   --beta-message-color: #a749ff; /* A shade of purple */
 
   /* NEW: Footer Colors (Dynamic) */
-  --footer-dynamic-line-color: #a0a0a0; /* Default subtle color for line */
-  --footer-text-color-dynamic: #a0a0a0; /* Default subtle color for text */
+  --footer-dynamic-line-color: #dbdbdb; /* Default subtle color for line */
+  --footer-text-color-dynamic: #dbdbdb; /* Default subtle color for text */
 }
 
 body {
@@ -78,6 +87,25 @@ body {
   to { background-position: 0% 50%; }
 }
 
+/* Top Bar Shop Button Styling - UPDATED */
+.shop-button {
+  background: var(--brand-color); /* Use brand color */
+  color: var(--text-color);
+  padding: 8px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all .2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.shop-button:hover {
+  transform: translateY(-1px);
+  background: var(--brand-color-light); /* Lighter brand color on hover */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+
 /* Main Status Text */
 #status-container {
   width: 100%;
@@ -102,6 +130,54 @@ body {
 .red {
   color: #f44336;
 }
+
+/* START: Keyshop Promotion Section Styles - UPDATED */
+#keyshop-promo-container {
+  width: 100%;
+  max-width: 600px; /* Match the info container */
+  margin: -10px auto 30px; /* Pull it up slightly, provide bottom margin */
+  padding: 20px 25px;
+  background: linear-gradient(135deg, var(--brand-color-dark-bg), var(--brand-color-darker-bg)); /* Use brand color gradient */
+  border: 1px solid var(--brand-color);
+  border-radius: 10px;
+  box-sizing: border-box;
+  box-shadow: 0 5px 20px var(--brand-box-shadow);
+  text-align: center;
+}
+
+.promo-title {
+  margin: 0 0 10px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.promo-text {
+  margin: 0 0 15px 0;
+  color: var(--text-subtle);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.promo-button {
+  display: inline-block;
+  background: var(--brand-color);
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  transition: all .2s ease-in-out;
+  box-shadow: 0 4px 15px var(--brand-box-shadow);
+}
+
+.promo-button:hover {
+  transform: scale(1.05);
+  background: var(--brand-color-light);
+  box-shadow: 0 6px 20px var(--brand-box-shadow-hover);
+}
+/* END: Keyshop Promotion Section Styles */
 
 /* Info Section Container */
 .info-section-container {
@@ -367,7 +443,7 @@ body {
   #status-text {
     font-size: 2rem;
   }
-  .info-section-container {
+  .info-section-container, #keyshop-promo-container {
     max-width: 95%;
   }
   .info-section-title {
@@ -410,6 +486,16 @@ body {
   }
   .info-section-container {
     padding: 10px;
+  }
+  .promo-title {
+    font-size: 20px;
+  }
+  .promo-text {
+    font-size: 15px;
+  }
+  .promo-button {
+    font-size: 16px;
+    padding: 10px 25px;
   }
 }
 
