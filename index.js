@@ -1,12 +1,4 @@
 // --- Defensive DOM Manipulation Helpers ---
-// These functions check if an element exists before trying to change it.
-// This prevents the script from crashing if you delete an element from the HTML.
-
-/**
- * Safely updates the text content of an element.
- * @param {string} id The ID of the element to update.
- * @param {string} text The text to set.
- */
 const updateText = (id, text) => {
   const element = document.getElementById(id);
   if (element) {
@@ -16,12 +8,6 @@ const updateText = (id, text) => {
   }
 };
 
-/**
- * Safely updates a style property of an element.
- * @param {string} id The ID of the element.
- * @param {string} styleProperty The CSS property to change (e.g., 'display').
- * @param {string} value The value to set the property to.
- */
 const updateStyle = (id, styleProperty, value) => {
   const element = document.getElementById(id);
   if (element) {
@@ -29,12 +15,6 @@ const updateStyle = (id, styleProperty, value) => {
   }
 };
 
-/**
- * Safely adds or removes a class from an element.
- * @param {string} id The ID of the element.
- * @param {string} className The class to toggle.
- * @param {boolean} add True to add the class, false to remove it.
- */
 const toggleClass = (id, className, add) => {
     const element = document.getElementById(id);
     if (element) {
@@ -42,11 +22,6 @@ const toggleClass = (id, className, add) => {
     }
 };
 
-/**
- * Safely sets the href attribute of a link.
- * @param {string} id The ID of the anchor element.
- * @param {string} url The URL to set.
- */
 const setHref = (id, url) => {
     const element = document.getElementById(id);
     if (element) {
@@ -56,35 +31,36 @@ const setHref = (id, url) => {
 
 
 // --- Main Application Logic ---
-
 async function checkBunniStatus() {
   const statusTextId = 'status-text';
   const infoContainerId = 'bunni-info-container';
   const footerId = 'app-footer';
-  const footerLineId = 'footer-dynamic-line';
 
   try {
-    // IMPORTANT: Make sure this is your new, working Cloudflare Worker URL
-    const response = await fetch('https://isbunniup-proxy.a91168823.workers.dev/api/status/exploits/Bunni.lol');
+    // Fetch both Bunni status and Roblox version data in parallel for speed
+    const [bunniResponse, robloxResponse] = await Promise.all([
+      fetch('https://isbunniup-proxy.a91168823.workers.dev/bunni'),
+      fetch('https://isbunniup-proxy.a91168823.workers.dev/roblox/windows')
+    ]);
 
-    if (!response.ok) {
-      throw new Error(`Network response was not ok (${response.status})`);
-    }
-    const data = await response.json();
+    // Check if both network requests were successful
+    if (!bunniResponse.ok) throw new Error(`Bunni API fetch failed (${bunniResponse.status})`);
+    if (!robloxResponse.ok) throw new Error(`Roblox API fetch failed (${robloxResponse.status})`);
 
-    const isUp = data.updateStatus === true;
+    const bunniData = await bunniResponse.json();
+    const robloxData = await robloxResponse.json();
+
+    const isUp = bunniData.updateStatus === true;
 
     // --- Update Main Status ---
-    // This will work even if the footer or info sections are deleted.
     updateText(statusTextId, isUp ? 'Yes, Bunni is Up.' : 'No, Bunni is Down.');
     toggleClass(statusTextId, 'green', isUp);
     toggleClass(statusTextId, 'red', !isUp);
     document.documentElement.style.setProperty('--footer-dynamic-line-color', isUp ? '#4caf50' : '#f44336');
 
     // --- Populate Bunni Details Section ---
-    // This entire block will be safely skipped if 'bunni-info-container' does not exist.
     const infoContainer = document.getElementById(infoContainerId);
-    if (data && infoContainer) {
+    if (bunniData && infoContainer) {
       infoContainer.style.display = 'block';
 
       // Update status label
@@ -93,43 +69,45 @@ async function checkBunniStatus() {
       toggleClass('bunni-update-text', 'not-updated', !isUp);
       
       // Update basic info
-      updateText('bunni-version', data.version || 'N/A');
-      updateText('bunni-last-updated', data.updatedDate || 'N/A');
+      updateText('bunni-version', bunniData.version || 'N/A');
+      updateText('bunni-last-updated', bunniData.updatedDate || 'N/A');
 
       // Handle Free/Paid badges
-      const isFree = data.free === true;
+      const isFree = bunniData.free === true;
       updateStyle('bunni-free-badge', 'display', isFree ? 'inline-block' : 'none');
       updateStyle('bunni-paid-badge', 'display', isFree ? 'none' : 'inline-block');
       if (!isFree) {
-        updateText('bunni-paid-badge', data.priceText || 'Paid');
+        updateText('bunni-paid-badge', bunniData.priceText || 'Paid');
       }
 
       // Show/hide detection warning
-      updateStyle('bunni-detection-warning', 'display', data.detected === true ? 'block' : 'none');
+      updateStyle('bunni-detection-warning', 'display', bunniData.detected === true ? 'block' : 'none');
       
       // --- Update Info Grid ---
-      // Each of these will now fail silently without stopping the script.
       let uncValue = 'N/A';
-      if (typeof data.uncPercentage === 'number') {
-          uncValue = `${data.uncPercentage}%`;
-      } else if (typeof data.uncStatus === 'boolean') {
-          uncValue = data.uncStatus ? 'Yes' : 'No';
+      if (typeof bunniData.uncPercentage === 'number') {
+          uncValue = `${bunniData.uncPercentage}%`;
+      } else if (typeof bunniData.uncStatus === 'boolean') {
+          uncValue = bunniData.uncStatus ? 'Yes' : 'No';
       }
       updateText('bunni-unc-percentage', uncValue);
 
-      updateText('bunni-sunc-percentage', typeof data.suncPercentage === 'number' ? `${data.suncPercentage}%` : 'N/A');
-      updateText('bunni-decompiler-status', typeof data.decompiler === 'boolean' ? (data.decompiler ? '✅' : 'No') : 'N/A');
-      updateText('bunni-multi-inject-status', typeof data.multiInject === 'boolean' ? (data.multiInject ? '✅' : 'No') : 'N/A');
+      updateText('bunni-sunc-percentage', typeof bunniData.suncPercentage === 'number' ? `${bunniData.suncPercentage}%` : 'N/A');
+      updateText('bunni-decompiler-status', typeof bunniData.decompiler === 'boolean' ? (bunniData.decompiler ? '✅' : 'No') : 'N/A');
+      updateText('bunni-multi-inject-status', typeof bunniData.multiInject === 'boolean' ? (bunniData.multiInject ? '✅' : 'No') : 'N/A');
       
+      // --- Update Roblox Info in the Grid ---
+      updateText('roblox-version', robloxData.Windows || 'N/A');
+      updateText('roblox-updated-date', robloxData.WindowsDate || 'N/A');
+
       // --- Update Action Buttons ---
-      if (data.websitelink) {
-          setHref('bunni-website-link', data.websitelink);
+      if (bunniData.websitelink) {
+          setHref('bunni-website-link', bunniData.websitelink);
           updateStyle('bunni-website-link', 'display', 'inline-flex');
       } else {
           updateStyle('bunni-website-link', 'display', 'none');
       }
       
-      // Always show discord link, but safely.
       setHref('bunni-discord-link', 'https://discord.gg/MUKkhVgjVu');
       updateStyle('bunni-discord-link', 'display', 'inline-flex');
 
@@ -137,21 +115,23 @@ async function checkBunniStatus() {
         console.warn(`Info container with ID "${infoContainerId}" not found. Skipping details update.`);
     }
 
-    // Show the footer if it exists
+    // Show the footer
     updateStyle(footerId, 'display', 'block');
 
   } catch (error) {
     console.error('Error checking status:', error);
-    updateText(statusTextId, 'Unable to check Bunni\'s status.');
+    updateText(statusTextId, 'Unable to check status.');
     toggleClass(statusTextId, 'red', true);
-    toggleClass(statusTextId, 'green', false);
 
-    // Hide optional sections on error
+    // Hide optional sections and update error states
     updateStyle(infoContainerId, 'display', 'none');
-    updateStyle(footerId, 'display', 'block'); // Still show the footer on error
+    updateStyle(footerId, 'display', 'block'); // Still show the footer
     document.documentElement.style.setProperty('--footer-dynamic-line-color', '#f44336');
+    // Also explicitly set the new fields to an error state
+    updateText('roblox-version', 'Error');
+    updateText('roblox-updated-date', 'Error');
   }
 }
 
-// Initial call to fetch status
+// ** This line is crucial! It must be present at the end of the file. **
 checkBunniStatus();
