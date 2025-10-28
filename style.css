@@ -182,7 +182,7 @@ body {
 /* Info Section Container */
 .info-section-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto 30px;
   padding: 16px;
   box-sizing: border-box;
@@ -308,7 +308,7 @@ body {
 /* Info Grid (for UNC, sUNC, Decompiler, Multi-Inject) */
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(2,1fr);
   gap: 10px;
   margin-bottom: 20px;
 }
@@ -333,19 +333,31 @@ body {
   font-weight: 500;
   text-align: right;
   flex-grow: 1;
+
+  /* --- FIX START --- */
+  /* Prevent long strings from breaking layout */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  /* Allows flex item to shrink and apply ellipsis */
+  min-width: 0;
+  /* --- FIX END --- */
 }
 
 /* Action Buttons */
 .action-buttons {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .action-button {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex:1;
   gap: 8px;
   background: var(--badge-bg);
   color: var(--text-color);
