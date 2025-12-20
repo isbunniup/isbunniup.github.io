@@ -1,3 +1,8 @@
+// --- CONFIGURATION ---
+// IMPORTANT: This URL needs to match your deployed Cloudflare Worker
+const WORKER_BASE_URL = 'https://isbunniup-proxy.a91168823.workers.dev';
+
+
 // --- Defensive DOM Manipulation Helpers ---
 const updateText = (id, text) => {
   const element = document.getElementById(id);
@@ -38,9 +43,10 @@ async function checkBunniStatus() {
 
   try {
     // Fetch both Bunni status and Roblox version data in parallel for speed
+    // Uses the WORKER_BASE_URL constant for cleaner code
     const [bunniResponse, robloxResponse] = await Promise.all([
-      fetch('https://isbunniup-proxy.a91168823.workers.dev/bunni'),
-      fetch('https://isbunniup-proxy.a91168823.workers.dev/roblox/windows')
+      fetch(`${WORKER_BASE_URL}/bunni`),
+      fetch(`${WORKER_BASE_URL}/roblox/windows`)
     ]);
 
     // Check if both network requests were successful

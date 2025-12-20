@@ -35,7 +35,7 @@
   --warning-bg: rgba(255, 188, 0, 0.1);
   --warning-border-left: #ffbc00;
 
-  /* Info Item Icons (for consistency, though now we're just using text 'X' or 'No') */
+  /* Info Item Icons */
   --info-check-icon: #3bea57;
   --info-x-icon: #ec3b47;
 
@@ -177,7 +177,6 @@ body {
   background: var(--brand-color-light);
   box-shadow: 0 6px 20px var(--brand-box-shadow-hover);
 }
-/* END: Keyshop Promotion Section Styles */
 
 /* Info Section Container */
 .info-section-container {
@@ -284,7 +283,6 @@ body {
   background: var(--status-outdated-color);
 }
 
-
 .last-updated-text {
   font-size: 14px;
   color: var(--text-subtle);
@@ -305,7 +303,7 @@ body {
   margin-bottom: 15px;
 }
 
-/* Info Grid (for UNC, sUNC, Decompiler, Multi-Inject) */
+/* Info Grid */
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2,1fr);
@@ -333,16 +331,10 @@ body {
   font-weight: 500;
   text-align: right;
   flex-grow: 1;
-
-  /* --- FIX START --- */
-  /* Prevent long strings from breaking layout */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  /* Allows flex item to shrink and apply ellipsis */
   min-width: 0;
-  /* --- FIX END --- */
 }
 
 /* Action Buttons */
@@ -515,9 +507,8 @@ body {
 #temporary-notice-container {
   width: 90%;
   max-width: 600px;
-  margin: 30px auto; /* Increased top margin for better spacing */
+  margin: 30px auto; 
   padding: 18px 20px;
-  /* Creates a solid, vibrant colored box with a subtle gradient */
   background: linear-gradient(135deg, hsla(277, 100%, 65%, 0.5), hsla(277, 100%, 55%, 0.5));
   border-radius: 8px;
   box-sizing: border-box;
@@ -526,18 +517,17 @@ body {
 
 #temporary-notice-container p {
   margin: 0;
-  color: var(--text-color); /* Ensures text is white and readable */
+  color: var(--text-color); 
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.6;
   text-align: left;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Adds depth to the text */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); 
 }
 
-/* Styling for code blocks inside the temporary notice */
 #temporary-notice-container code {
-  background-color: rgba(0, 0, 0, 0.25); /* Dark, semi-transparent background */
-  padding: 3px 6px; /* Adds some space inside the code block */
-  border-radius: 4px; /* Rounds the corners */
-  font-size: 0.9em; /* Slightly smaller font size to differentiate */
+  background-color: rgba(0, 0, 0, 0.25); 
+  padding: 3px 6px; 
+  border-radius: 4px; 
+  font-size: 0.9em; 
 }
