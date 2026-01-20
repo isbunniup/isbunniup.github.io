@@ -1,7 +1,6 @@
 // --- CONFIGURATION ---
-// IMPORTANT: This URL needs to match your deployed Cloudflare Worker
+// Use your Cloudflare Worker URL
 const WORKER_BASE_URL = 'https://isbunniup-proxy.a91168823.workers.dev';
-
 
 // --- Defensive DOM Manipulation Helpers ---
 const updateText = (id, text) => {
@@ -42,19 +41,38 @@ async function checkBunniStatus() {
   const footerId = 'app-footer';
 
   try {
-    // Fetch both Bunni status and Roblox version data in parallel for speed
-    // Uses the WORKER_BASE_URL constant for cleaner code
+    console.log("Fetching status from:", WORKER_BASE_URL);
+
+    // Fetch both Bunni status and Roblox version data in parallel
     const [bunniResponse, robloxResponse] = await Promise.all([
       fetch(`${WORKER_BASE_URL}/bunni`),
       fetch(`${WORKER_BASE_URL}/roblox/windows`)
     ]);
 
-    // Check if both network requests were successful
-    if (!bunniResponse.ok) throw new Error(`Bunni API fetch failed (${bunniResponse.status})`);
-    if (!robloxResponse.ok) throw new Error(`Roblox API fetch failed (${robloxResponse.status})`);
+    // --- Enhanced Error Handling ---
+    if (!bunniResponse.ok) {
+        // Try to read the error message from the worker
+        const errJson = await bunniResponse.json().catch(() => ({ details: 'Unknown JSON error' }));
+        console.error("Worker Error (Bunni):", errJson);
+        throw new Error(`Bunni API fetch failed: ${bunniResponse.status} - ${errJson.details || bunniResponse.statusText}`);
+    }
+
+    if (!robloxResponse.ok) {
+        const errJson = await robloxResponse.json().catch(() => ({ details: 'Unknown JSON error' }));
+        console.error("Worker Error (Roblox):", errJson);
+        throw new Error(`Roblox API fetch failed: ${robloxResponse.status} - ${errJson.details || robloxResponse.statusText}`);
+    }
 
     const bunniData = await bunniResponse.json();
     const robloxData = await robloxResponse.json();
+
+    console.log("Bunni data received:", bunniData);
+    console.log("Roblox data received:", robloxData);
+
+    // Check if we got an error object instead of data
+    if (bunniData.error) {
+        throw new Error(`Worker returned error: ${bunniData.details || bunniData.error}`);
+    }
 
     const isUp = bunniData.updateStatus === true;
 
@@ -83,7 +101,7 @@ async function checkBunniStatus() {
       updateStyle('bunni-free-badge', 'display', isFree ? 'inline-block' : 'none');
       updateStyle('bunni-paid-badge', 'display', isFree ? 'none' : 'inline-block');
       if (!isFree) {
-        updateText('bunni-paid-badge', bunniData.priceText || 'Paid');
+        updateText('bunni-paid-badge', bunniData.cost || bunniData.priceText || 'Paid');
       }
 
       // Show/hide detection warning
@@ -103,8 +121,8 @@ async function checkBunniStatus() {
       updateText('bunni-multi-inject-status', typeof bunniData.multiInject === 'boolean' ? (bunniData.multiInject ? '✅' : 'No') : 'N/A');
       
       // --- Update Roblox Info in the Grid ---
-      updateText('roblox-version', robloxData.Windows || 'N/A');
-      updateText('roblox-updated-date', robloxData.WindowsDate || 'N/A');
+      updateText('roblox-version', robloxData.Windows || robloxData.windows || 'N/A');
+      updateText('roblox-updated-date', robloxData.WindowsDate || robloxData.windowsDate || 'N/A');
 
       // --- Update Action Buttons ---
       if (bunniData.websitelink) {
@@ -114,8 +132,13 @@ async function checkBunniStatus() {
           updateStyle('bunni-website-link', 'display', 'none');
       }
       
-      setHref('bunni-discord-link', 'https://discord.gg/MUKkhVgjVu');
-      updateStyle('bunni-discord-link', 'display', 'inline-flex');
+      if (bunniData.discordlink) {
+          setHref('bunni-discord-link', bunniData.discordlink);
+          updateStyle('bunni-discord-link', 'display', 'inline-flex');
+      } else {
+          setHref('bunni-discord-link', 'https://discord.gg/MUKkhVgjVu');
+          updateStyle('bunni-discord-link', 'display', 'inline-flex');
+      }
 
     } else if (!infoContainer) {
         console.warn(`Info container with ID "${infoContainerId}" not found. Skipping details update.`);

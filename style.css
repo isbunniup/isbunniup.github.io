@@ -30,10 +30,12 @@
   --sunc-badge-color: #ad97db;
   --sunc-white: #fff;
 
-  /* Warning Color */
-  --warning-yellow: #ffc107;
-  --warning-bg: rgba(255, 188, 0, 0.1);
-  --warning-border-left: #ffbc00;
+  /* NEW: Purple Warning Color (Updated) */
+  --warning-purple: #a78bfa; /* Purple text color */
+  --warning-purple-bg: rgba(167, 139, 250, 0.1); /* Light purple background */
+  --warning-purple-border: #a78bfa; /* Purple border */
+  --warning-purple-dark-bg: #2b223d; /* Dark purple background (RGB: 43, 34, 61) */
+  --warning-purple-light-text: #d8cdfc; /* Light purple text */
 
   /* Info Item Icons */
   --info-check-icon: #3bea57;
@@ -291,16 +293,17 @@ body {
   padding-right: 5px;
 }
 
-/* Warning Box styles */
+/* UPDATED: Warning Box styles - Now Purple Theme */
 .detection-warning {
-  background: var(--warning-bg);
-  border-left: 3px solid var(--warning-border-left);
-  padding: 10px 15px;
-  border-radius: 4px;
+  background: var(--warning-purple-dark-bg); /* Dark purple background */
+  border-left: 3px solid var(--warning-purple-border); /* Purple border */
+  padding: 12px 15px;
+  border-radius: 6px;
   font-size: 14px;
-  color: var(--text-color);
+  color: var(--warning-purple-light-text); /* Light purple text */
   margin-top: 10px;
   margin-bottom: 15px;
+  line-height: 1.5;
 }
 
 /* Info Grid */
@@ -471,6 +474,7 @@ body {
   }
   .detection-warning {
     font-size: 13px;
+    padding: 10px 12px;
   }
   .action-buttons {
     flex-direction: column;
@@ -500,6 +504,10 @@ body {
   .promo-button {
     font-size: 16px;
     padding: 10px 25px;
+  }
+  .detection-warning {
+    font-size: 12px;
+    padding: 8px 10px;
   }
 }
 
